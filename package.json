@@ -1,0 +1,16 @@
+{
+    "name": "fidelitycredit-ynab",
+    "version": "1.0.0",
+    "main": "index.mjs",
+    "scripts": {
+        "start": "node --env-file=.env index.mjs"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "csv-parse": "^5.6.0",
+        "playwright-chromium": "^1.50.1",
+        "ynab": "^2.6.0"
+    }
+}

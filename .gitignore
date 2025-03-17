@@ -128,3 +128,8 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Stuff specific to my project
+/user_data
+/storage
+transactions.csv
