@@ -19,6 +19,8 @@ export async function downloadCsvWithHeadlessBrowser() {
     })
     const pages = context.pages()
     const page = pages[0]
+    page.setDefaultTimeout(90000) // 90 seconds
+    page.setDefaultNavigationTimeout(90000) // 90 seconds
 
     try {
         // Log in
@@ -27,9 +29,10 @@ export async function downloadCsvWithHeadlessBrowser() {
         console.log('Page loaded')
 
         // Wait for the inputs or a login link
+        console.log('Waiting for login inputs or link')
         await Promise.race([
             page.locator('a[href*="login.do"]').waitFor(),
-            page.locator('input[name=Username]').waitFor(),
+            page.locator('input[name=aw-personal-id]').waitFor(),
         ])
 
         // If there is a login link, click it and wait for the page to load
@@ -42,8 +45,8 @@ export async function downloadCsvWithHeadlessBrowser() {
 
         // Fill in login info
         console.log('Filling in auth info')
-        await page.fill('input[name=Username]', process.env.FIDELITY_USERNAME)
-        await page.fill('input[name=Password]', process.env.FIDELITY_PASSWORD)
+        await page.fill('input[name=aw-personal-id]', process.env.FIDELITY_USERNAME)
+        await page.fill('input[name=aw-password]', process.env.FIDELITY_PASSWORD)
         await page.click('button[type=submit]')
         console.log('Submitted login')
 
@@ -61,11 +64,11 @@ export async function downloadCsvWithHeadlessBrowser() {
 
         return fs.readFile('./transactions.csv', 'utf-8')
     } catch (error) {
-        console.error('Error during download:', error)
-
         // Take a screenshot for debugging
         await page.screenshot({ path: 'screenshot.png' })
         console.error('Screenshot saved as screenshot.png')
+
+        throw error
     } finally {
         // Close browser
         await context.close()

@@ -130,6 +130,7 @@ dist
 .pnp.*
 
 # Stuff specific to my project
+package-lock.json
 /user_data
 /storage
 transactions.csv
